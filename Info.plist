@@ -21,7 +21,7 @@
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2002-2021 mathew &lt;meta@pobox.com&gt;. GPL v3 or later.</string>
+	<string>Copyright © 2002-2021 mathew &lt;meta@pobox.com&gt;. Modifications © 2026 Andreas Plagens. GPL v3 or later.</string>
 	<key>NSPrincipalClass</key>
 	<string>MatrixView</string>
 </dict>

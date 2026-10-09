@@ -327,7 +327,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ATH0.RedPill;
+				PRODUCT_BUNDLE_IDENTIFIER = eu.plagens.RedPill;
 				PRODUCT_NAME = RedPill;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = saver;
@@ -352,7 +352,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ATH0.RedPill;
+				PRODUCT_BUNDLE_IDENTIFIER = eu.plagens.RedPill;
 				PRODUCT_NAME = RedPill;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = saver;

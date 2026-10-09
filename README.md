@@ -1,6 +1,22 @@
 This is Red Pill, a 3D OpenGL "Matrix" screensaver for Mac OS X.
 Copyright © 2002-2012 mathew <meta@pobox.com>.
 
+## About this fork
+
+This is a fork of the original [lpar/RedPill](https://github.com/lpar/RedPill), modified in 2026 by
+Andreas Plagens so that it builds and runs safely on current macOS versions. Problems with this
+version belong at [andiqq/RedPill](https://github.com/andiqq/RedPill), not with the original author.
+
+Changes from the original:
+
+- Universal (Apple Silicon and Intel) build for macOS 12 or later, with a new Xcode project.
+- Stops rendering when the screensaver is dismissed, even when macOS forgets to tell it to stop.
+- Fixed out-of-bounds memory reads in the animation code.
+- Sharp rendering on Retina displays, and reliable drawing on modern macOS.
+- "Main screen only" now detects the main display correctly.
+- The options sheet's OK and Cancel buttons close it again, and About opens this repository.
+- Bundle identifier is `eu.plagens.RedPill`, so settings are stored separately from the original.
+
 ## Building and installing on a modern Mac
 
 Red Pill builds as a universal (Apple Silicon and Intel) screensaver for macOS 12 or later.
