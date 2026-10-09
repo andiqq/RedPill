@@ -29,7 +29,7 @@
 
 // This is the main control object for the screensaver.
 // It inherits from and implements the ScreenSaverView API.
-@interface MatrixView : ScreenSaverView 
+@interface MatrixView : ScreenSaverView <MatrixOpenGLViewRenderer>
 {
    // The NSOpenGLView subclass where we draw the graphics
    MatrixOpenGLView *glview;
@@ -66,6 +66,9 @@
 
 // Handle a change of preferences/configuration
 - (void)loadDefaults:(NSNotification *)n;
+
+// Handle the system telling us the screensaver is going away
+- (void)screenSaverWillStop:(NSNotification *)n;
 
 // Method to initialize OpenGL
 - (void)initGL;

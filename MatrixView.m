@@ -25,30 +25,39 @@
 
 @implementation MatrixView
 
+// Posted by the system when the screensaver is dismissed. On recent macOS versions
+// the host process often never calls stopAnimation, and keeps old instances alive.
+#define SCREENSAVER_WILL_STOP_NOTIFICATION @"com.apple.screensaver.willstop"
+
+// Read a preference, clamped to the range the preferences sheet allows
+static float ClampedDefault(ScreenSaverDefaults *defaults, NSString *key, float lo, float hi)
+{
+   float v = [defaults floatForKey:key];
+   // fmaxf also turns NaN into lo
+   return fminf(fmaxf(v, lo), hi);
+}
+
 /// SECTION ONE
 /// Core ScreenSaverView method implementations
-
-// Override setFrameSize to resize the GL universe too.
-- (void)setFrameSize:(NSSize)newSize
-{
-   [super setFrameSize:newSize];
-   if (glview != nil) {
-      [glview setFrameSize:newSize];
-      [self resizeGL:(int)newSize.width :(int)newSize.height];
-   }
-}
 
 // Constructor to initialize a screensaver in the specified rectangular frame.
 // The frame may be a full screen, or a preview window.
 - (instancetype)initWithFrame:(NSRect)frame isPreview:(BOOL)previewmode
 {
-// Note that double buffering makes performance worse and doesn't improve display quality,
-// so we don't demand it
 NSOpenGLPixelFormatAttribute attributes[] = {
-   NSOpenGLPFAColorSize, 16,
+   NSOpenGLPFAAccelerated,
+   NSOpenGLPFADoubleBuffer,
+   NSOpenGLPFAAllowOfflineRenderers,
+   NSOpenGLPFAColorSize, 24,
    NSOpenGLPFAAlphaSize, 8,
    (NSOpenGLPixelFormatAttribute)0};
+NSOpenGLPixelFormatAttribute fallbackAttributes[] = {
+   NSOpenGLPFADoubleBuffer,
+   NSOpenGLPFAColorSize, 24,
+   (NSOpenGLPixelFormatAttribute)0};
 NSOpenGLPixelFormat *pixformat;
+GLint swapInterval = 1;
+GLint surfaceOpacity = 1;
 
    isPreview = previewmode;
    // Initialize the superclass to set up the environment for the screensaver
@@ -83,9 +92,8 @@ NSOpenGLPixelFormat *pixformat;
    // Now load either those defaults, or the user's prior choice of preferences
    [self loadDefaults:nil];
 
-   // Work out if we're running on the main display
-   // This lets us offer a "run on main screen only" option for when OpenGL doesn't like running two monitors
-   isMainScreen = ((frame.origin.x == 0 && frame.origin.y == 0) || isPreview);
+   // We find out which screen we're on once we have a window; until then assume main
+   isMainScreen = TRUE;
    // If we're running in preview mode, we need to set up a notification so the preferences dialog
    // can tell us when we need to reload our parameters to show the changes.
    // Note that the notification center should always be set up, otherwise it's possible to cause
@@ -95,26 +103,43 @@ NSOpenGLPixelFormat *pixformat;
          selector:@selector(loadDefaults:)
              name:PREFS_NOTIFICATION
            object:nil];
-   
-   // Create pixel format
+   // Make sure we stop drawing (and free the GPU) when the screensaver is dismissed,
+   // even if the system forgets to call stopAnimation
+   if (!isPreview) {
+      [[NSDistributedNotificationCenter defaultCenter]
+         addObserver:self
+            selector:@selector(screenSaverWillStop:)
+                name:SCREENSAVER_WILL_STOP_NOTIFICATION
+              object:nil];
+   }
+
+   // Create pixel format, falling back to something more basic if need be
    pixformat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
-   if(!pixformat) {
+   if (!pixformat) {
+      pixformat = [[NSOpenGLPixelFormat alloc] initWithAttributes:fallbackAttributes];
+   }
+   if (!pixformat) {
       LogError("initWithFrame", "Failed to create a suitable pixel format. Your graphics card can't cope with this screensaver, sorry.");
       return nil;
    }
 
-   // Create the GL context
-   // QUERY: Why NSZeroRect? Why not frame? I don't know, perhaps someone can tell me...
-   glview = [[MatrixOpenGLView alloc] initWithFrame:NSZeroRect pixelFormat:pixformat];
+   // Create the GL view, filling our whole area and following our size
+   glview = [[MatrixOpenGLView alloc] initWithFrame:[self bounds] pixelFormat:pixformat];
    if (glview == nil) {
       LogError("initWithFrame", "Failed to initialize OpenGL. Not my fault.");
       return nil;
    }
+   [glview setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+   // Render at full resolution on Retina displays
+   [glview setWantsBestResolutionOpenGLSurface:YES];
+   [glview setRenderer:self];
+   // Sync buffer swaps to the display refresh, to avoid tearing, and keep the surface opaque
+   [[glview openGLContext] setValues:&swapInterval forParameter:NSOpenGLContextParameterSwapInterval];
+   [[glview openGLContext] setValues:&surfaceOpacity forParameter:NSOpenGLContextParameterSurfaceOpacity];
    // We do the actual glFoo initialization calls later
-   didGLinit = FALSE;   
+   didGLinit = FALSE;
    // Make the GL context a subview of us
    [self addSubview:glview];
-   // Now we can release our handle on it
    // Set the animation speed
    [self setAnimationTimeInterval:1/30.0];
    // Initialize the parameters which aren't editable in the dialog box.
@@ -139,111 +164,103 @@ NSOpenGLPixelFormat *pixformat;
    // Work out what our defaults are called
    NSString *identifier = [[NSBundle bundleForClass:[self class]] bundleIdentifier];
    if(identifier == nil) {
-      LogError("initWithFrame", "Trying to load preferences but identifier is nil.");
+      LogError("loadDefaults", "Trying to load preferences but identifier is nil.");
       return;
    }
    // Load defaults
    ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:identifier];
-   // Scale the values appropriately and set the saver parameters
-   saverParams.maxStrips = [defaults floatForKey:STRIPS_KEY];
-   saverParams.driftSpeed = [defaults floatForKey:VELOCITY_KEY] / 100.0;
-   saverParams.maxDepth = [defaults floatForKey:DEPTH_KEY];
-   saverParams.colorCycleSpeed = [defaults floatForKey:CYCLING_KEY] / 100.0;
-   saverParams.colorFallSpeed = [defaults floatForKey:FALLING_KEY] / 100.0;
-   saverParams.cursorSpeed = [defaults floatForKey:CURSOR_KEY] / 100.0;
-   saverParams.fogDensity = [defaults floatForKey:FOG_KEY] / 100.0;
+   // Scale the values appropriately and set the saver parameters.
+   // Values are clamped to the slider ranges, so a damaged preferences file can't break the animation.
+   saverParams.maxStrips = (int)ClampedDefault(defaults, STRIPS_KEY, 1, 200);
+   saverParams.driftSpeed = ClampedDefault(defaults, VELOCITY_KEY, 0, 80) / 100.0;
+   saverParams.maxDepth = ClampedDefault(defaults, DEPTH_KEY, 80, CLIP_FAR);
+   saverParams.colorCycleSpeed = ClampedDefault(defaults, CYCLING_KEY, 0, 10) / 100.0;
+   saverParams.colorFallSpeed = ClampedDefault(defaults, FALLING_KEY, 0, 5) / 100.0;
+   saverParams.cursorSpeed = ClampedDefault(defaults, CURSOR_KEY, 0, 60) / 100.0;
+   saverParams.fogDensity = ClampedDefault(defaults, FOG_KEY, 0, 30) / 100.0;
    saverParams.minStartY = ([defaults boolForKey:TOPSTART_KEY] ? 1.0 : 0.0);
-   mainScreenOnly = ([defaults boolForKey:MAINONLY_KEY] ? 1 : 0);
-   // Check for main screen only and this isn't main screen
-   if (mainScreenOnly && !isMainScreen) {
-      return;
-   }
-   // If fog value is now zero, disable fog
-   if (glview == nil) {
-      // Oops, nothing we can do
-      return;
-   }
-   [[glview openGLContext] makeCurrentContext];
-   if (saverParams.fogDensity == 0.0) {
-      glDisable(GL_FOG);
-      CheckGLError("loadDefaults","glDisable(GL_FOG)");
-   } else {
-      glEnable(GL_FOG);
-      CheckGLError("loadDefaults","glEnable(GL_FOG)");
-   }
+   mainScreenOnly = [defaults boolForKey:MAINONLY_KEY];
+   // Fog is switched on or off as each frame is drawn
+}
+
+// Work out if we're running on the main display.
+// This lets us offer a "run on main screen only" option for when OpenGL doesn't like running two monitors
+- (void)updateIsMainScreen
+{
+   NSScreen *screen = [[self window] screen];
+   NSScreen *mainScreen = [[NSScreen screens] firstObject];
+   isMainScreen = (isPreview || screen == nil || mainScreen == nil || [screen isEqual:mainScreen]);
+}
+
+- (void)viewDidMoveToWindow
+{
+   [super viewDidMoveToWindow];
+   [self updateIsMainScreen];
+}
+
+// Are we supposed to be drawing anything on this screen?
+- (BOOL)isActiveScreen
+{
+   return !(mainScreenOnly && !isMainScreen);
 }
 
 - (void)startAnimation
 {
-   // Anything to do?
-   if (mainScreenOnly && !isMainScreen) {
-      return;
-   }  
-
    if (glview == nil) {
       LogError("startAnimation", "OS called startAnimation before NSOpenGLView initialized. This should not happen.");
       return;
    }
-   // Clear the screen to black, so that the screensaver fades to black
-   [[glview openGLContext] makeCurrentContext];
-   glClearColor(0.0, 0.0, 0.0, 0.0);
-   CheckGLError("startAnimation","glClearColor(0.0, 0.0, 0.0, 0.0)");
-   glClear(GL_COLOR_BUFFER_BIT);
-   CheckGLError("startAnimation","glClear(GL_COLOR_BUFFER_BIT)");
-   glFlush();
-   CheckGLError("startAnimation","glFlush");
-   // Allocate the texture storage object if necessary
+   [self updateIsMainScreen];
+   if ([self isActiveScreen]) {
+      // Allocate the texture storage object if necessary
       [[glview openGLContext] makeCurrentContext];
-   if (matrixGlyphs == nil) {
-      matrixGlyphs = [[MatrixTexture alloc] initWithNSOpenGLView:glview];
-   }
-   // Load and bind the texture bitmap
-   if (![matrixGlyphs fileLoaded]) {
-      // Load the PNG of glyphs
-      [matrixGlyphs loadFromFile:@"Glyphs.png"];
+      if (matrixGlyphs == nil) {
+         matrixGlyphs = [[MatrixTexture alloc] initWithNSOpenGLView:glview];
+      }
+      // Load and bind the texture bitmap
+      if (![matrixGlyphs fileLoaded]) {
+         // Load the PNG of glyphs
+         [matrixGlyphs loadFromFile:@"Glyphs.png"];
+      }
    }
    // Set up some parameters
    x = 0.0;
    y = 0.0;
+   // Clear the screen to black, so that the screensaver fades to black
+   [self drawGL];
    [super startAnimation];
+}
+
+// Free everything we allocated for the animation
+- (void)releaseAnimationResources
+{
+   // Release the strips and the texture (which deletes the GL texture)
+   matrixStrips = nil;
+   matrixGlyphs = nil;
+   saverParams.spawnChance = 0.2;
 }
 
 - (void)stopAnimation
 {
-   // Release the textures
-   if (matrixGlyphs != nil) {
-      // very important!
-      matrixGlyphs = nil;
-   }
    [super stopAnimation];
+   [self releaseAnimationResources];
 }
 
-// Draw the current frame
+// The system is dismissing the screensaver. Stop the timer and free resources,
+// as this instance may never be told to stop or be deallocated.
+- (void)screenSaverWillStop:(NSNotification *)n
+{
+   if ([self isAnimating]) {
+      [self stopAnimation];
+   } else {
+      [self releaseAnimationResources];
+   }
+}
+
+// Our own drawing is all done by the OpenGL subview, which covers us completely
 - (void)drawRect:(NSRect)rect
 {
    [super drawRect:rect];
-
-   
-   // Initialize OpenGL if necessary
-   if (!didGLinit) {
-      didGLinit = TRUE;
-      [self initGL];
-   }
-   
-   if (glview == nil) {
-     return;
-   }
-   
-   if (mainScreenOnly && !isMainScreen) {
-     [[glview openGLContext] makeCurrentContext];
-     glClearColor(0.0, 0.0, 0.0, 0.0);
-     return;
-   }     
-   
-   [self drawGL];
-
-   // This is where we'd flush the double buffer to the screen if we were using one, with
-   // [[glview openGLContext] flushBuffer];
 }
 
 - (void)animateOneFrame
@@ -253,7 +270,7 @@ GLfloat d;
 int cells;
 MatrixStrip *strip;
 MatrixStrip *newstrip;
-int maxi,newstripi;
+int maxi;
 int i;
 struct MatrixStripParams tweaked;
 
@@ -264,9 +281,9 @@ struct MatrixStripParams tweaked;
    }
    
    // Anything to do?
-  if (mainScreenOnly && !isMainScreen) {
-    return;
-  }
+   if (![self isActiveScreen]) {
+      return;
+   }
 
    if (matrixGlyphs == nil) {
       // Unfortunately the OS calling "draw frame" before "initialize screensaver" happens quite a lot,
@@ -279,7 +296,7 @@ struct MatrixStripParams tweaked;
       matrixStrips = [[NSMutableArray alloc] init];
    }
    // If the number of Matrix strips is less than the max, create another every now and again
-   maxi = [matrixStrips count];
+   maxi = (int)[matrixStrips count];
    if ((maxi < saverParams.maxStrips) && (RANDOM_FLOAT_01 < saverParams.spawnChance)) {
       // Copy the current parameters
       tweaked = saverParams;
@@ -299,11 +316,14 @@ struct MatrixStripParams tweaked;
       // Work out how many cells it needs to cover the screen vertically
       cells = (int) ((y + ys) / saverParams.cellSize / QUAD_SQUISH_FACTOR) + 2;
       // Tweak the cursor speed a bit, randomly
-       tweaked.cursorSpeed = saverParams.cursorSpeed + 0.2 * RANDOM_FLOAT_01;
+       // (but never let it stop altogether, or the strip would never finish)
+       tweaked.cursorSpeed = fmaxf(saverParams.cursorSpeed + 0.2 * RANDOM_FLOAT_01, 0.01);
        // I guess we could tweak the other parameters to vary things a bit, but it looks good enough anyway
       // Now create a strip
       newstrip = [[MatrixStrip alloc] initWithCells:cells x:x y:y z:d params:tweaked];
-      newstripi = -1;
+      if (newstrip == nil) {
+         return;
+      }
       // Add it to the array
        if (saverParams.driftSpeed == 0.0) {
           // In "zero velocity mode", we need to find the first strip that's in front of this one
@@ -324,10 +344,9 @@ struct MatrixStripParams tweaked;
              [matrixStrips insertObject:newstrip atIndex:0];
           }
        }
-      // Now send a release, as the array will have retained it
    }
    // Animate all the strips
-   maxi = [matrixStrips count];
+   maxi = (int)[matrixStrips count];
    for (i = 0; i < maxi; i++) {
       strip = matrixStrips[i];
       if ([strip animateSelfIsComplete]) {
@@ -343,8 +362,8 @@ struct MatrixStripParams tweaked;
          }
       }
    }
-   // Trigger a rectangle redraw
-   [self setNeedsDisplay:YES];
+   // Draw the new frame
+   [self drawGL];
 }
 
 /// SECTION TWO
@@ -360,8 +379,7 @@ GLfloat fogcolor[4] = {0.0, 0.0, 0.0, 1.0};
       LogError("initGL", "Screensaver called initGL before NSOpenGLView initialized. This should not happen.");
       return;
    }
-   // OK, let's go
-   [[glview openGLContext] makeCurrentContext];
+   // OK, let's go (drawGL has made our context current)
    // All we need is flat shaded polygons
    glShadeModel(GL_FLAT);
    CheckGLError("initGL","glShadeModel(GL_FLAT)");
@@ -377,6 +395,7 @@ GLfloat fogcolor[4] = {0.0, 0.0, 0.0, 1.0};
    glEnable(GL_BLEND);
    CheckGLError("initGL","glEnable(GL_BLEND)");
    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+   CheckGLError("initGL","glBlendFunc");
    // Enable fog
    glEnable(GL_FOG);
    CheckGLError("initGL","glEnable(GL_FOG)");
@@ -414,6 +433,10 @@ GLfloat fogcolor[4] = {0.0, 0.0, 0.0, 1.0};
       LogError("resizeGL", "Screensaver called resizeGL before NSOpenGLView initialized. This should not happen.");
       return;
    }
+   if (width <= 0 || height <= 0) {
+      // Not on screen yet; avoid dividing by zero below
+      return;
+   }
    [[glview openGLContext] makeCurrentContext];
    glViewport(0, 0, width, height);
    CheckGLError("resizeGL","glViewport");
@@ -437,42 +460,44 @@ GLfloat fogcolor[4] = {0.0, 0.0, 0.0, 1.0};
 - (void)drawGL
 {
 GLuint tex;
-NSEnumerator *e;
-MatrixStrip *strip;
+NSOpenGLContext *context;
 
    if (glview == nil) {
       LogError("drawGL", "Screensaver called drawGL called before NSOpenGLView initialized. This should not happen.");
       return;
    }
-   if (matrixGlyphs == nil) {
-      // Unfortunately the OS calling "draw frame" before "initialize screensaver" happens quite a lot,
-       // and shouldn't be reported as an error
-      return;
+   context = [glview openGLContext];
+   [context makeCurrentContext];
+   // Initialize OpenGL if necessary
+   if (!didGLinit) {
+      didGLinit = TRUE;
+      [self initGL];
    }
-   [[glview openGLContext] makeCurrentContext];
-   glClearColor(0.0, 0.0, 0.0, 0.0);
-   CheckGLError("drawGL","glClearColor(0.0, 0.0, 0.0, 0.0)");
+   // Switch fog on or off, as the preferences may have changed
+   if (saverParams.fogDensity == 0.0) {
+      glDisable(GL_FOG);
+   } else {
+      glEnable(GL_FOG);
+   }
+   CheckGLError("drawGL","glEnable/glDisable(GL_FOG)");
+   glClearColor(0.0, 0.0, 0.0, 1.0);
+   CheckGLError("drawGL","glClearColor(0.0, 0.0, 0.0, 1.0)");
    glClear(GL_COLOR_BUFFER_BIT);
    CheckGLError("drawGL","glClear(GL_COLOR_BUFFER_BIT)");
-   if (matrixStrips == nil) {
-      // I guess we didn't get around to it yet
-       return;
+   // Unfortunately the OS calling "draw frame" before "initialize screensaver" happens quite a lot,
+   // so if there's nothing to draw yet, we just show black
+   if ([self isActiveScreen] && [matrixGlyphs fileLoaded] && matrixStrips != nil) {
+      // Bind the texture we loaded
+      tex = [matrixGlyphs GLtexture];
+      glBindTexture(GL_TEXTURE_2D, tex);
+      CheckGLError("drawGL","glBindTexture");
+      // Draw all the strips by asking them to draw themselves
+      for (MatrixStrip *strip in matrixStrips) {
+         [strip drawSelf];
+      }
    }
-   // Bind the texture we loaded
-   tex = [matrixGlyphs GLtexture];
-   if (!glIsTexture(tex)) {
-      LogError("drawGL", "Someone stole our texture, call the OpenGL texture police.");
-   }
-   CheckGLError("drawGL","glIsTexture");
-   glBindTexture(GL_TEXTURE_2D, tex);
-   CheckGLError("drawGL","glBindTexture");
-   // Draw all the strips by asking them to draw themselves
-   e = [matrixStrips objectEnumerator];
-   while (strip = [e nextObject]) {
-      [strip drawSelf];
-   }  
-   glFlush();
-   CheckGLError("drawGL","glFlush");
+   // Show what we drew
+   [context flushBuffer];
 }
 
 /// SECTION THREE
@@ -489,6 +514,7 @@ MatrixStrip *strip;
       prefsWindow = [[MatrixPrefsWindow alloc]
       initWithWindowNibName:@"Matrix"];
    }
+   [prefsWindow loadSettings];
    return [prefsWindow window];
 }
 
@@ -496,9 +522,8 @@ MatrixStrip *strip;
 /// Clean up after ourselves
 - (void) dealloc
 {
-   [[NSNotificationCenter defaultCenter]
-      removeObserver:self
-                name:PREFS_NOTIFICATION
-              object:nil];
+   [[NSNotificationCenter defaultCenter] removeObserver:self];
+   [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
+   [glview setRenderer:nil];
 }
 @end

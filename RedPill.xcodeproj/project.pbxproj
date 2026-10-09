@@ -3,413 +3,358 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8D255AC70486D3F9007BF209 /* RedPill_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCFA80370C50100C91783 /* RedPill_Prefix.pch */; };
-		8D255ACA0486D3F9007BF209 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
-		8D255ACE0486D3F9007BF209 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		8D255ACF0486D3F9007BF209 /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F27B2DFFEEEFEF11CA0E56 /* ScreenSaver.framework */; };
-		C0F75DF814649DBA00BC0085 /* GLUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = C0F75DEA14649DBA00BC0085 /* GLUtils.h */; };
-		C0F75DF914649DBA00BC0085 /* GLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C0F75DEB14649DBA00BC0085 /* GLUtils.m */; };
-		C0F75DFA14649DBA00BC0085 /* MatrixMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = C0F75DEC14649DBA00BC0085 /* MatrixMacros.h */; };
-		C0F75DFB14649DBA00BC0085 /* MatrixOpenGLView.h in Headers */ = {isa = PBXBuildFile; fileRef = C0F75DED14649DBA00BC0085 /* MatrixOpenGLView.h */; };
-		C0F75DFC14649DBA00BC0085 /* MatrixOpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0F75DEE14649DBA00BC0085 /* MatrixOpenGLView.m */; };
-		C0F75DFD14649DBA00BC0085 /* MatrixPrefsWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = C0F75DEF14649DBA00BC0085 /* MatrixPrefsWindow.h */; };
-		C0F75DFE14649DBA00BC0085 /* MatrixPrefsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C0F75DF014649DBA00BC0085 /* MatrixPrefsWindow.m */; };
-		C0F75DFF14649DBA00BC0085 /* MatrixStrip.h in Headers */ = {isa = PBXBuildFile; fileRef = C0F75DF114649DBA00BC0085 /* MatrixStrip.h */; };
-		C0F75E0014649DBA00BC0085 /* MatrixStrip.m in Sources */ = {isa = PBXBuildFile; fileRef = C0F75DF214649DBA00BC0085 /* MatrixStrip.m */; };
-		C0F75E0114649DBA00BC0085 /* MatrixStripParams.h in Headers */ = {isa = PBXBuildFile; fileRef = C0F75DF314649DBA00BC0085 /* MatrixStripParams.h */; };
-		C0F75E0214649DBA00BC0085 /* MatrixTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = C0F75DF414649DBA00BC0085 /* MatrixTexture.h */; };
-		C0F75E0314649DBA00BC0085 /* MatrixTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = C0F75DF514649DBA00BC0085 /* MatrixTexture.m */; };
-		C0F75E0414649DBA00BC0085 /* MatrixView.h in Headers */ = {isa = PBXBuildFile; fileRef = C0F75DF614649DBA00BC0085 /* MatrixView.h */; };
-		C0F75E0514649DBA00BC0085 /* MatrixView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0F75DF714649DBA00BC0085 /* MatrixView.m */; };
-		C0F75E0B14649E1C00BC0085 /* Matrix.nib in Resources */ = {isa = PBXBuildFile; fileRef = C0F75E0914649E1C00BC0085 /* Matrix.nib */; };
-		C0F75E1214649E8E00BC0085 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0F75E1114649E8E00BC0085 /* OpenGL.framework */; };
-		C0F75E1C1464A00100BC0085 /* Glyphs.png in Resources */ = {isa = PBXBuildFile; fileRef = C0F75E1B1464A00100BC0085 /* Glyphs.png */; };
+		A1000000000000000000B001 /* GLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000F001 /* GLUtils.m */; };
+		A1000000000000000000B002 /* MatrixOpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000F002 /* MatrixOpenGLView.m */; };
+		A1000000000000000000B003 /* MatrixPrefsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000F003 /* MatrixPrefsWindow.m */; };
+		A1000000000000000000B004 /* MatrixStrip.m in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000F004 /* MatrixStrip.m */; };
+		A1000000000000000000B005 /* MatrixTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000F005 /* MatrixTexture.m */; };
+		A1000000000000000000B006 /* MatrixView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000F006 /* MatrixView.m */; };
+		A1000000000000000000B010 /* Glyphs.png in Resources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000F010 /* Glyphs.png */; };
+		A1000000000000000000B011 /* Matrix.xib in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000006001 /* Matrix.xib */; };
+		A1000000000000000000B012 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000006002 /* InfoPlist.strings */; };
+		A1000000000000000000B020 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1000000000000000000F020 /* Cocoa.framework */; };
+		A1000000000000000000B021 /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1000000000000000000F021 /* ScreenSaver.framework */; };
+		A1000000000000000000B022 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1000000000000000000F022 /* OpenGL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		06F27B2DFFEEEFEF11CA0E56 /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = /System/Library/Frameworks/ScreenSaver.framework; sourceTree = "<absolute>"; };
-		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		32DBCFA80370C50100C91783 /* RedPill_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedPill_Prefix.pch; sourceTree = "<group>"; };
-		8D255AD20486D3F9007BF209 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D255AD30486D3F9007BF209 /* RedPill.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RedPill.saver; sourceTree = BUILT_PRODUCTS_DIR; };
-		C0F75DEA14649DBA00BC0085 /* GLUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLUtils.h; sourceTree = "<group>"; };
-		C0F75DEB14649DBA00BC0085 /* GLUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLUtils.m; sourceTree = "<group>"; };
-		C0F75DEC14649DBA00BC0085 /* MatrixMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatrixMacros.h; sourceTree = "<group>"; };
-		C0F75DED14649DBA00BC0085 /* MatrixOpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatrixOpenGLView.h; sourceTree = "<group>"; };
-		C0F75DEE14649DBA00BC0085 /* MatrixOpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatrixOpenGLView.m; sourceTree = "<group>"; };
-		C0F75DEF14649DBA00BC0085 /* MatrixPrefsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatrixPrefsWindow.h; sourceTree = "<group>"; };
-		C0F75DF014649DBA00BC0085 /* MatrixPrefsWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatrixPrefsWindow.m; sourceTree = "<group>"; };
-		C0F75DF114649DBA00BC0085 /* MatrixStrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatrixStrip.h; sourceTree = "<group>"; };
-		C0F75DF214649DBA00BC0085 /* MatrixStrip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatrixStrip.m; sourceTree = "<group>"; };
-		C0F75DF314649DBA00BC0085 /* MatrixStripParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatrixStripParams.h; sourceTree = "<group>"; };
-		C0F75DF414649DBA00BC0085 /* MatrixTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatrixTexture.h; sourceTree = "<group>"; };
-		C0F75DF514649DBA00BC0085 /* MatrixTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatrixTexture.m; sourceTree = "<group>"; };
-		C0F75DF614649DBA00BC0085 /* MatrixView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatrixView.h; sourceTree = "<group>"; };
-		C0F75DF714649DBA00BC0085 /* MatrixView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatrixView.m; sourceTree = "<group>"; };
-		C0F75E0A14649E1C00BC0085 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Matrix.nib; sourceTree = "<group>"; };
-		C0F75E0E14649E5500BC0085 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/Matrix.nib; sourceTree = "<group>"; };
-		C0F75E1114649E8E00BC0085 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		C0F75E1B1464A00100BC0085 /* Glyphs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Glyphs.png; sourceTree = "<group>"; };
+		A1000000000000000000F001 /* GLUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLUtils.m; sourceTree = "<group>"; };
+		A1000000000000000000F002 /* MatrixOpenGLView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MatrixOpenGLView.m; sourceTree = "<group>"; };
+		A1000000000000000000F003 /* MatrixPrefsWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MatrixPrefsWindow.m; sourceTree = "<group>"; };
+		A1000000000000000000F004 /* MatrixStrip.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MatrixStrip.m; sourceTree = "<group>"; };
+		A1000000000000000000F005 /* MatrixTexture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MatrixTexture.m; sourceTree = "<group>"; };
+		A1000000000000000000F006 /* MatrixView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MatrixView.m; sourceTree = "<group>"; };
+		A1000000000000000000F101 /* GLUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLUtils.h; sourceTree = "<group>"; };
+		A1000000000000000000F102 /* MatrixOpenGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MatrixOpenGLView.h; sourceTree = "<group>"; };
+		A1000000000000000000F103 /* MatrixPrefsWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MatrixPrefsWindow.h; sourceTree = "<group>"; };
+		A1000000000000000000F104 /* MatrixStrip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MatrixStrip.h; sourceTree = "<group>"; };
+		A1000000000000000000F105 /* MatrixTexture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MatrixTexture.h; sourceTree = "<group>"; };
+		A1000000000000000000F106 /* MatrixView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MatrixView.h; sourceTree = "<group>"; };
+		A1000000000000000000F107 /* MatrixMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MatrixMacros.h; sourceTree = "<group>"; };
+		A1000000000000000000F108 /* MatrixStripParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MatrixStripParams.h; sourceTree = "<group>"; };
+		A1000000000000000000F109 /* RedPill_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RedPill_Prefix.pch; sourceTree = "<group>"; };
+		A1000000000000000000F010 /* Glyphs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Glyphs.png; sourceTree = "<group>"; };
+		A1000000000000000000F011 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Matrix.xib; sourceTree = "<group>"; };
+		A1000000000000000000F012 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/Matrix.xib; sourceTree = "<group>"; };
+		A1000000000000000000F013 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A1000000000000000000F014 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1000000000000000000F015 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A1000000000000000000F020 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		A1000000000000000000F021 /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = System/Library/Frameworks/ScreenSaver.framework; sourceTree = SDKROOT; };
+		A1000000000000000000F022 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		A1000000000000000000F030 /* RedPill.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RedPill.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		8D255ACD0486D3F9007BF209 /* Frameworks */ = {
+		A10000000000000000002003 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D255ACE0486D3F9007BF209 /* Cocoa.framework in Frameworks */,
-				8D255ACF0486D3F9007BF209 /* ScreenSaver.framework in Frameworks */,
-				C0F75E1214649E8E00BC0085 /* OpenGL.framework in Frameworks */,
+				A1000000000000000000B020 /* Cocoa.framework in Frameworks */,
+				A1000000000000000000B021 /* ScreenSaver.framework in Frameworks */,
+				A1000000000000000000B022 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		089C166AFE841209C02AAC07 /* RedPill */ = {
+		A10000000000000000009000 = {
 			isa = PBXGroup;
 			children = (
-				08FB77AFFE84173DC02AAC07 /* Classes */,
-				32DBCFA70370C4F300C91783 /* Other Sources */,
-				089C167CFE841241C02AAC07 /* Resources */,
-				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
-				19C28FB8FE9D52D311CA2CBB /* Products */,
+				A10000000000000000009001 /* Classes */,
+				A10000000000000000009002 /* Resources */,
+				A10000000000000000009003 /* Frameworks */,
+				A10000000000000000009004 /* Products */,
+				A1000000000000000000F015 /* README.md */,
 			);
-			indentWidth = 2;
-			name = RedPill;
-			sourceTree = "<group>";
-			tabWidth = 2;
-		};
-		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
-			isa = PBXGroup;
-			children = (
-				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
-				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
-			);
-			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
 		};
-		089C167CFE841241C02AAC07 /* Resources */ = {
+		A10000000000000000009001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				C0F75E1B1464A00100BC0085 /* Glyphs.png */,
-				C0F75E0914649E1C00BC0085 /* Matrix.nib */,
-				8D255AD20486D3F9007BF209 /* Info.plist */,
-				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		08FB77AFFE84173DC02AAC07 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				C0F75DEA14649DBA00BC0085 /* GLUtils.h */,
-				C0F75DEB14649DBA00BC0085 /* GLUtils.m */,
-				C0F75DEC14649DBA00BC0085 /* MatrixMacros.h */,
-				C0F75DED14649DBA00BC0085 /* MatrixOpenGLView.h */,
-				C0F75DEE14649DBA00BC0085 /* MatrixOpenGLView.m */,
-				C0F75DEF14649DBA00BC0085 /* MatrixPrefsWindow.h */,
-				C0F75DF014649DBA00BC0085 /* MatrixPrefsWindow.m */,
-				C0F75DF114649DBA00BC0085 /* MatrixStrip.h */,
-				C0F75DF214649DBA00BC0085 /* MatrixStrip.m */,
-				C0F75DF314649DBA00BC0085 /* MatrixStripParams.h */,
-				C0F75DF414649DBA00BC0085 /* MatrixTexture.h */,
-				C0F75DF514649DBA00BC0085 /* MatrixTexture.m */,
-				C0F75DF614649DBA00BC0085 /* MatrixView.h */,
-				C0F75DF714649DBA00BC0085 /* MatrixView.m */,
+				A1000000000000000000F106 /* MatrixView.h */,
+				A1000000000000000000F006 /* MatrixView.m */,
+				A1000000000000000000F102 /* MatrixOpenGLView.h */,
+				A1000000000000000000F002 /* MatrixOpenGLView.m */,
+				A1000000000000000000F104 /* MatrixStrip.h */,
+				A1000000000000000000F004 /* MatrixStrip.m */,
+				A1000000000000000000F108 /* MatrixStripParams.h */,
+				A1000000000000000000F105 /* MatrixTexture.h */,
+				A1000000000000000000F005 /* MatrixTexture.m */,
+				A1000000000000000000F103 /* MatrixPrefsWindow.h */,
+				A1000000000000000000F003 /* MatrixPrefsWindow.m */,
+				A1000000000000000000F101 /* GLUtils.h */,
+				A1000000000000000000F001 /* GLUtils.m */,
+				A1000000000000000000F107 /* MatrixMacros.h */,
+				A1000000000000000000F109 /* RedPill_Prefix.pch */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
 		};
-		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+		A10000000000000000009002 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
-				06F27B2DFFEEEFEF11CA0E56 /* ScreenSaver.framework */,
-				C0F75E1114649E8E00BC0085 /* OpenGL.framework */,
+				A1000000000000000000F010 /* Glyphs.png */,
+				A10000000000000000006001 /* Matrix.xib */,
+				A10000000000000000006002 /* InfoPlist.strings */,
+				A1000000000000000000F014 /* Info.plist */,
 			);
-			name = "Linked Frameworks";
+			name = Resources;
 			sourceTree = "<group>";
 		};
-		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+		A10000000000000000009003 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				089C1672FE841209C02AAC07 /* Foundation.framework */,
-				089C167FFE841241C02AAC07 /* AppKit.framework */,
+				A1000000000000000000F020 /* Cocoa.framework */,
+				A1000000000000000000F021 /* ScreenSaver.framework */,
+				A1000000000000000000F022 /* OpenGL.framework */,
 			);
-			name = "Other Frameworks";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+		A10000000000000000009004 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D255AD30486D3F9007BF209 /* RedPill.saver */,
+				A1000000000000000000F030 /* RedPill.saver */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		32DBCFA70370C4F300C91783 /* Other Sources */ = {
-			isa = PBXGroup;
-			children = (
-				32DBCFA80370C50100C91783 /* RedPill_Prefix.pch */,
-			);
-			name = "Other Sources";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		8D255AC60486D3F9007BF209 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8D255AC70486D3F9007BF209 /* RedPill_Prefix.pch in Headers */,
-				C0F75DF814649DBA00BC0085 /* GLUtils.h in Headers */,
-				C0F75DFA14649DBA00BC0085 /* MatrixMacros.h in Headers */,
-				C0F75DFB14649DBA00BC0085 /* MatrixOpenGLView.h in Headers */,
-				C0F75DFD14649DBA00BC0085 /* MatrixPrefsWindow.h in Headers */,
-				C0F75DFF14649DBA00BC0085 /* MatrixStrip.h in Headers */,
-				C0F75E0114649DBA00BC0085 /* MatrixStripParams.h in Headers */,
-				C0F75E0214649DBA00BC0085 /* MatrixTexture.h in Headers */,
-				C0F75E0414649DBA00BC0085 /* MatrixView.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
-		8D255AC50486D3F9007BF209 /* RedPill */ = {
+		A10000000000000000003001 /* RedPill */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EF7AD72D08BB986600CE4634 /* Build configuration list for PBXNativeTarget "RedPill" */;
+			buildConfigurationList = A10000000000000000005002 /* Build configuration list for PBXNativeTarget "RedPill" */;
 			buildPhases = (
-				8D255AC60486D3F9007BF209 /* Headers */,
-				8D255AC90486D3F9007BF209 /* Resources */,
-				8D255ACB0486D3F9007BF209 /* Sources */,
-				8D255ACD0486D3F9007BF209 /* Frameworks */,
-				8D255AD00486D3F9007BF209 /* Rez */,
+				A10000000000000000002001 /* Resources */,
+				A10000000000000000002002 /* Sources */,
+				A10000000000000000002003 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = RedPill;
-			productInstallPath = "$(HOME)/Library/Screen Savers";
 			productName = RedPill;
-			productReference = 8D255AD30486D3F9007BF209 /* RedPill.saver */;
+			productReference = A1000000000000000000F030 /* RedPill.saver */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		089C1669FE841209C02AAC07 /* Project object */ = {
+		A10000000000000000004001 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1310;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2700;
 			};
-			buildConfigurationList = EF7AD73108BB986600CE4634 /* Build configuration list for PBXProject "RedPill" */;
-			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			buildConfigurationList = A10000000000000000005001 /* Build configuration list for PBXProject "RedPill" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
+				en,
+				Base,
+				ja,
 			);
-			mainGroup = 089C166AFE841209C02AAC07 /* RedPill */;
+			mainGroup = A10000000000000000009000;
+			productRefGroup = A10000000000000000009004 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D255AC50486D3F9007BF209 /* RedPill */,
+				A10000000000000000003001 /* RedPill */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		8D255AC90486D3F9007BF209 /* Resources */ = {
+		A10000000000000000002001 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D255ACA0486D3F9007BF209 /* InfoPlist.strings in Resources */,
-				C0F75E0B14649E1C00BC0085 /* Matrix.nib in Resources */,
-				C0F75E1C1464A00100BC0085 /* Glyphs.png in Resources */,
+				A1000000000000000000B012 /* InfoPlist.strings in Resources */,
+				A1000000000000000000B011 /* Matrix.xib in Resources */,
+				A1000000000000000000B010 /* Glyphs.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXRezBuildPhase section */
-		8D255AD00486D3F9007BF209 /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXRezBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		8D255ACB0486D3F9007BF209 /* Sources */ = {
+		A10000000000000000002002 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0F75DF914649DBA00BC0085 /* GLUtils.m in Sources */,
-				C0F75DFC14649DBA00BC0085 /* MatrixOpenGLView.m in Sources */,
-				C0F75DFE14649DBA00BC0085 /* MatrixPrefsWindow.m in Sources */,
-				C0F75E0014649DBA00BC0085 /* MatrixStrip.m in Sources */,
-				C0F75E0314649DBA00BC0085 /* MatrixTexture.m in Sources */,
-				C0F75E0514649DBA00BC0085 /* MatrixView.m in Sources */,
+				A1000000000000000000B001 /* GLUtils.m in Sources */,
+				A1000000000000000000B002 /* MatrixOpenGLView.m in Sources */,
+				A1000000000000000000B003 /* MatrixPrefsWindow.m in Sources */,
+				A1000000000000000000B004 /* MatrixStrip.m in Sources */,
+				A1000000000000000000B005 /* MatrixTexture.m in Sources */,
+				A1000000000000000000B006 /* MatrixView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+		A10000000000000000006001 /* Matrix.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				089C167EFE841241C02AAC07 /* English */,
+				A1000000000000000000F011 /* Base */,
+				A1000000000000000000F012 /* ja */,
 			);
-			name = InfoPlist.strings;
+			name = Matrix.xib;
 			sourceTree = "<group>";
 		};
-		C0F75E0914649E1C00BC0085 /* Matrix.nib */ = {
+		A10000000000000000006002 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C0F75E0A14649E1C00BC0085 /* English */,
-				C0F75E0E14649E5500BC0085 /* Japanese */,
+				A1000000000000000000F013 /* en */,
 			);
-			name = Matrix.nib;
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		EF7AD72E08BB986600CE4634 /* Debug */ = {
+		A1000000000000000000C001 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CURRENT_PROJECT_VERSION = 2.1.1;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_MODEL_TUNING = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = RedPill_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "";
-				MARKETING_VERSION = 2.1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ATH0.${PRODUCT_NAME:identifier}";
-				PRODUCT_NAME = RedPill;
-				STRIP_INSTALLED_PRODUCT = YES;
-				WRAPPER_EXTENSION = saver;
-				ZERO_LINK = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
-		EF7AD72F08BB986600CE4634 /* Release */ = {
+		A1000000000000000000C002 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CURRENT_PROJECT_VERSION = 2.1.1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				GCC_MODEL_TUNING = "";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = RedPill_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "";
-				MARKETING_VERSION = 2.1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ATH0.${PRODUCT_NAME:identifier}";
-				PRODUCT_NAME = RedPill;
-				STRIP_INSTALLED_PRODUCT = YES;
-				WRAPPER_EXTENSION = saver;
-				ZERO_LINK = NO;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
-		EF7AD73208BB986600CE4634 /* Debug */ = {
+		A1000000000000000000C003 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 2.2;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = RedPill_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"GL_SILENCE_DEPRECATION=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = Info.plist;
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				ONLY_ACTIVE_ARCH = YES;
+				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				MARKETING_VERSION = 2.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ATH0.RedPill;
 				PRODUCT_NAME = RedPill;
-				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Debug;
 		};
-		EF7AD73308BB986600CE4634 /* Release */ = {
+		A1000000000000000000C004 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 2.2;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = RedPill_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"GL_SILENCE_DEPRECATION=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = Info.plist;
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				MARKETING_VERSION = 2.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ATH0.RedPill;
 				PRODUCT_NAME = RedPill;
-				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Release;
@@ -417,25 +362,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EF7AD72D08BB986600CE4634 /* Build configuration list for PBXNativeTarget "RedPill" */ = {
+		A10000000000000000005001 /* Build configuration list for PBXProject "RedPill" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EF7AD72E08BB986600CE4634 /* Debug */,
-				EF7AD72F08BB986600CE4634 /* Release */,
+				A1000000000000000000C001 /* Debug */,
+				A1000000000000000000C002 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EF7AD73108BB986600CE4634 /* Build configuration list for PBXProject "RedPill" */ = {
+		A10000000000000000005002 /* Build configuration list for PBXNativeTarget "RedPill" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EF7AD73208BB986600CE4634 /* Debug */,
-				EF7AD73308BB986600CE4634 /* Release */,
+				A1000000000000000000C003 /* Debug */,
+				A1000000000000000000C004 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+	rootObject = A10000000000000000004001 /* Project object */;
 }

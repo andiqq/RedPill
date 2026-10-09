@@ -21,16 +21,16 @@
 
 @implementation MatrixPrefsWindow
 
-- (NSWindow *)window
+- (void)loadSettings
 {
-   // Initialize parent
-   NSWindow *w = [super window];
+   // Make sure the nib has been loaded, so the outlets are connected
+   [self window];
    // Work out what our defaults are called
    NSString *identifier = [[NSBundle bundleForClass:[self class]] bundleIdentifier];
    if(identifier == nil) {
-      LogError("window", "Trying to load preferences but identifier is nil.");
-      return w;
-   }  
+      LogError("loadSettings", "Trying to load preferences but identifier is nil.");
+      return;
+   }
    // Load defaults
    ScreenSaverDefaults *defaults = [ScreenSaverDefaults defaultsForModuleWithName:identifier];
    // Initialize the UI elements
@@ -41,21 +41,33 @@
    [falling setFloatValue:[defaults floatForKey:FALLING_KEY]];
    [cursor setFloatValue:[defaults floatForKey:CURSOR_KEY]];
    [fog setFloatValue:[defaults floatForKey:FOG_KEY]];
-   [topstart setState:[defaults boolForKey:TOPSTART_KEY]];
-   [mainonly setState:[defaults boolForKey:MAINONLY_KEY]];
+   [topstart setState:([defaults boolForKey:TOPSTART_KEY] ? NSControlStateValueOn : NSControlStateValueOff)];
+   [mainonly setState:([defaults boolForKey:MAINONLY_KEY] ? NSControlStateValueOn : NSControlStateValueOff)];
    // Find out version from bundle
    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-   NSMutableString *versionString = [[NSMutableString alloc]
-      initWithString:[bundle infoDictionary][@"CFBundleShortVersionString"]];
-   [version setStringValue:versionString];
-   [spoon setState:FALSE];
+   NSString *versionString = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+   [version setStringValue:(versionString ?: @"")];
+   [spoon setState:NSControlStateValueOff];
    // Hide spoon mode most of the time
-   if ((random() % 5) != 3) {
+   if (arc4random_uniform(5) != 3) {
       [spoon setTransparent:TRUE];
    } else {
       [spoon setTransparent:FALSE];
    }
-   return w;
+}
+
+// Dismiss the configuration sheet.
+// Modern macOS hosts the sheet on a parent window, and ignores [NSApp endSheet:].
+- (void)closeSheet
+{
+   NSWindow *sheet = [self window];
+   NSWindow *parent = [sheet sheetParent];
+   if (parent != nil) {
+      [parent endSheet:sheet];
+   } else {
+      [NSApp endSheet:sheet];
+      [sheet orderOut:self];
+   }
 }
 
 // Reset the values of the sliders to their defaults
@@ -68,21 +80,22 @@
    [falling setFloatValue:[FALLING_DEFAULT floatValue]];
    [cursor setFloatValue:[CURSOR_DEFAULT floatValue]];
    [fog setFloatValue:[FOG_DEFAULT floatValue]];
-   [topstart setState:TOPSTART_DEFAULT_BOOLEAN];
-   [mainonly setState:MAINONLY_DEFAULT_BOOLEAN];
+   [topstart setState:(TOPSTART_DEFAULT_BOOLEAN ? NSControlStateValueOn : NSControlStateValueOff)];
+   [mainonly setState:(MAINONLY_DEFAULT_BOOLEAN ? NSControlStateValueOn : NSControlStateValueOff)];
 }
 
 // The About button takes them to a web site
 - (IBAction)about:(id)sender
 {
-   NSAppleScript *go = [[NSAppleScript alloc]
-initWithSource:@"open location \"http://meta.ath0.com/redpill/\""];
-   [go executeAndReturnError:nil];
+   NSURL *url = [NSURL URLWithString:ABOUT_URL];
+   if (url != nil) {
+      [[NSWorkspace sharedWorkspace] openURL:url];
+   }
 }
 
 - (IBAction)cancel:(id)sender
 {
-   [NSApp endSheet:[self window]];
+   [self closeSheet];
 }
 
 - (IBAction)spoonclick:(id)sender
@@ -96,7 +109,7 @@ initWithSource:@"open location \"http://meta.ath0.com/redpill/\""];
    NSString *identifier = [[NSBundle bundleForClass:[self class]] bundleIdentifier];
    if(identifier == nil) {
       LogError("ok", "Trying to save preferences but identifier is nil.");
-      [NSApp endSheet:[self window]];
+      [self closeSheet];
       return;
    }
    // Load defaults
@@ -109,11 +122,15 @@ initWithSource:@"open location \"http://meta.ath0.com/redpill/\""];
    [defaults setFloat:[falling floatValue] forKey:FALLING_KEY];
    [defaults setFloat:[cursor floatValue] forKey:CURSOR_KEY];
    [defaults setFloat:[fog floatValue] forKey:FOG_KEY];
-   [defaults setBool:[topstart state] forKey:TOPSTART_KEY];
-   [defaults setBool:[mainonly state] forKey:MAINONLY_KEY];
+   [defaults setBool:([topstart state] == NSControlStateValueOn) forKey:TOPSTART_KEY];
+   [defaults setBool:([mainonly state] == NSControlStateValueOn) forKey:MAINONLY_KEY];
    // Plug web site if user selects spoon mode
-   if ([spoon state] == TRUE) {
-      NSRunAlertPanel(@"Realize", @"There is no spoon.", @"OK", nil, nil);
+   if ([spoon state] == NSControlStateValueOn) {
+      NSAlert *alert = [[NSAlert alloc] init];
+      alert.messageText = @"Realize";
+      alert.informativeText = @"There is no spoon.";
+      [alert addButtonWithTitle:@"OK"];
+      [alert runModal];
       [self about:sender];
    }
    // Update to disk
@@ -121,7 +138,7 @@ initWithSource:@"open location \"http://meta.ath0.com/redpill/\""];
 
    // Tell the main scrensaver loop to reload the preferences from us
    [[NSNotificationCenter defaultCenter] postNotificationName:PREFS_NOTIFICATION object:nil];
-   
-   [NSApp endSheet:[self window]];
+
+   [self closeSheet];
 }
 @end

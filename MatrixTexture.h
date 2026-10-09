@@ -22,20 +22,12 @@
 #import <OpenGL/gl.h>
 #import <OpenGL/glext.h>
 #import <OpenGL/glu.h>
+#import <ImageIO/ImageIO.h>
 #import "GLUtils.h"
 
 // This code encapsulates all the ugly details of loading a texture from a graphics file
 // into allocated memory, and converting it into the format needed by OpenGL.
 @interface MatrixTexture : NSObject {
-   // Size of texture (height and width)
-   NSSize size;
-
-   // Format of texture (GL_RGB or GL_RGBA)
-   GLenum format;
-
-   // Raw data
-   char *data;
-
    // OpenGL handle used to refer to texture
    GLuint texture;
 
@@ -44,11 +36,9 @@
 
    // Has the texture data been successfully loaded?
    BOOL fileWasLoaded;
-
-   // Bitmap data for glyphs
-   NSMutableData *dataobj;
 }
 
+- (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithNSOpenGLView:(NSOpenGLView *)someview NS_DESIGNATED_INITIALIZER;
 
 // Method to load texture from a file 

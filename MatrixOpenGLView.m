@@ -21,13 +21,20 @@
 
 @implementation MatrixOpenGLView
 
-// pass drawRect to our superview so we can do all the drawing in our ScreenSaverView subclass
+// Called when the view changes size; the viewport is in pixels, not points,
+// so that Retina displays get a full resolution surface
+- (void)reshape
+{
+   [super reshape];
+   NSRect backing = [self convertRectToBacking:[self bounds]];
+   [[self openGLContext] makeCurrentContext];
+   [self.renderer resizeGL:(int)NSWidth(backing) :(int)NSHeight(backing)];
+}
+
+// Let the renderer redraw whenever AppKit asks for it
 - (void)drawRect:(NSRect)rect
 {
-   NSView *superview = [self superview];
-   [superview lockFocus];
-   [superview drawRect:rect];
-   [superview unlockFocus];
+   [self.renderer drawGL];
 }
 
 @end

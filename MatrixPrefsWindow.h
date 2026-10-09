@@ -51,7 +51,11 @@
 #define SPOON_DEFAULT_BOOLEAN FALSE
 
 // Notification to send the main object
-#define PREFS_NOTIFICATION @"PreferencesChanged"
+// (the screensaver host process may load other modules, so keep the name unique)
+#define PREFS_NOTIFICATION @"com.ATH0.RedPill.PreferencesChanged"
+
+// Where the About button takes you
+#define ABOUT_URL @"https://github.com/lpar/RedPill"
 
 @interface MatrixPrefsWindow :  NSWindowController
 {
@@ -67,6 +71,9 @@
    IBOutlet NSButton *spoon;
    IBOutlet NSTextField *version;
 }
+
+// Set the UI elements from the saved preferences
+- (void)loadSettings;
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)ok:(id)sender;

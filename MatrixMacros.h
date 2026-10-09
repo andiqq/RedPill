@@ -19,10 +19,14 @@
 
 // Some useful macros and constants used in various places in the code
 
+#include <stdlib.h>
+
+// Random integer from 0 to n-1 (n must be > 0)
+#define RANDOM_INT(n) ((int)arc4random_uniform((uint32_t)(n)))
 // Random float from 0.0 to 1.0
-#define RANDOM_FLOAT_01 ((float)(random() % 100) / 100.0)
+#define RANDOM_FLOAT_01 ((float)RANDOM_INT(100) / 100.0f)
 // Random float from -1.0 to 1.0
-#define RANDOM_FLOAT_11 ((float)(random() % 200) / 100.0 - 1.0)
+#define RANDOM_FLOAT_11 ((float)RANDOM_INT(200) / 100.0f - 1.0f)
 /// Assorted constants
 
 // Near and far clipping planes, cm from the user's eye

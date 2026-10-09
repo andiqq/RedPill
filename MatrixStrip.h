@@ -63,6 +63,8 @@
     int lastVisibleCell;
 }
 
+- (instancetype) init NS_UNAVAILABLE;
+
 // Initialize with top left corner at given position
 - (instancetype) initWithCells:(int)cells x:(GLfloat)x y:(GLfloat)y z:(GLfloat)z params:(struct MatrixStripParams)params NS_DESIGNATED_INITIALIZER;
 

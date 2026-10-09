@@ -101,7 +101,7 @@ int c;
 - (void) randomizeCursorGlyph
 {
    if (cursorDrawing) {
-      cursorGlyph = 1 + (random() % (stripParams.numGlyphs - 1));
+      cursorGlyph = 1 + RANDOM_INT(stripParams.numGlyphs - 1);
    } else {
       cursorGlyph = 0;
    }
@@ -120,32 +120,32 @@ int c;
    if (current == 0) {
       // Cursor is drawing empty space
       // Next state is either draw-live or draw-static
-      cursorState = (random() % (stripParams.cursorLiveProbability + 
-         stripParams.cursorStaticProbability)) < stripParams.cursorLiveProbability ? 
-         (random() % stripParams.maxCellLife) : 1;
+      cursorState = RANDOM_INT(stripParams.cursorLiveProbability +
+         stripParams.cursorStaticProbability) < stripParams.cursorLiveProbability ? 
+         RANDOM_INT(stripParams.maxCellLife) : 1;
    } else if (current == 1) {
       // Cursor is drawing static cells
       // Next state is either draw-live or draw-empty-space
-      cursorState = (random() % (stripParams.cursorLiveProbability + 
-         stripParams.cursorEmptyProbability)) < stripParams.cursorLiveProbability ? 
-         (random() % stripParams.maxCellLife) : 0;
+      cursorState = RANDOM_INT(stripParams.cursorLiveProbability +
+         stripParams.cursorEmptyProbability) < stripParams.cursorLiveProbability ? 
+         RANDOM_INT(stripParams.maxCellLife) : 0;
    } else if (current > 1) {
       // Cursor is drawing live cells
       // Next state is either draw-static or draw-empty-space
-      cursorState = (random() % (stripParams.cursorStaticProbability + 
-         stripParams.cursorEmptyProbability)) < stripParams.cursorStaticProbability ? 
+      cursorState = RANDOM_INT(stripParams.cursorStaticProbability +
+         stripParams.cursorEmptyProbability) < stripParams.cursorStaticProbability ? 
          1 : 0;
    } else {
       // None of the above
       // Pick a state completely at random
-      int x = (random() % (stripParams.cursorStaticProbability +
-         stripParams.cursorEmptyProbability + stripParams.cursorLiveProbability));
+      int x = RANDOM_INT(stripParams.cursorStaticProbability +
+         stripParams.cursorEmptyProbability + stripParams.cursorLiveProbability);
       if (x < stripParams.cursorEmptyProbability) {
          cursorState = 0;
       } else if (x < (stripParams.cursorEmptyProbability + stripParams.cursorStaticProbability)) {
          cursorState = 1;
       } else {
-         cursorState = (random() % stripParams.maxCellLife);
+         cursorState = RANDOM_INT(stripParams.maxCellLife);
       }
    }
 }
@@ -213,7 +213,6 @@ int i;
    int i,maxi,c;
    GLfloat g, gstep, cursorglow;
 
-   c = 0; // To suppress spurious warning
    gstep = stripParams.colorCycleSpeed;
    // First, run down the strip cycling colors to bright then back to dark
    g = startColor;
@@ -245,7 +244,7 @@ int i;
       cursorglow = 0.8;
       for (i = maxi; i >= 0 && cursorglow > 0.2; i--) {
       // If there's some cursor-imparted glow left, use it
-         if (colorArray[16*i + 4*c + 1] < cursorglow) {
+         if (colorArray[16*i + 1] < cursorglow) {
             for (c = 0; c < 4; c++) {
                // Some shade of green if cell is not empty
                colorArray[16*i + 4*c + 1] = (cellState[i] == 0) ? 0.0 : cursorglow;
@@ -371,22 +370,23 @@ GLfloat cc;
       lastcell = lastVisibleCell;
    }
    // Now go draw all array elements from firstVisibleCell to lastcell
+   // Never let OpenGL read beyond the end of our arrays
+   if (lastcell > stripSize - 1) {
+      lastcell = stripSize - 1;
+   }
+   if (firstVisibleCell < 0) {
+      // Nothing on screen
+      lastcell = firstVisibleCell - 1;
+   }
    first = firstVisibleCell * 4;
    count = (1 + lastcell - firstVisibleCell) * 4;
-   if (count == 0) {
-      return;
+   if (count > 0) {
+      glDrawArrays(GL_QUADS, first, count);
+      CheckGLError("drawSelf","glDrawArrays");
    }
-   if (first < 0) {
-      LogError("drawSelf", "Likely error: GLint first < 0");
-   }
-   if ((count % 4) != 0 || (count / 4) > stripSize) {
-      LogError("drawSelf", "Likely error: GLsizei count incorrect");
-   }
-   glDrawArrays(GL_QUADS, first, count); /// was +1
-   CheckGLError("drawSelf","glDrawArrays");
    // Now we draw some motion trails behind the falling cursor.
    // You don't consciously notice it, but it makes a big difference.
-   if (cursorDrawing) {
+   if (cursorDrawing && cursorPos < stripSize) {
       jitter = 0.75 * stripParams.cursorSpeed * stripParams.cellSize;
       glDisableClientState(GL_COLOR_ARRAY);
       CheckGLError("drawSelf","glDisableClientState(GL_COLOR_ARRAY)");
@@ -441,7 +441,7 @@ float zapchance;
          // Move the cursor down a cell and pick a random glyph
          cursorPos += 1;
          // Should we change the cursor's draw state?
-         if ((random() % 100) < stripParams.cursorChangeProbability) {
+         if (RANDOM_INT(100) < stripParams.cursorChangeProbability) {
             // Pick a different state
             [self randomizeCursorState:cursorState];
          }
@@ -474,10 +474,10 @@ float zapchance;
             // Animated cell, will change glyph
             // If it's the top cell, give it a random value
             if (c == 0) {
-               cellContents[c] = 1 + (random() % (stripParams.numGlyphs - 1));
+               cellContents[c] = 1 + RANDOM_INT(stripParams.numGlyphs - 1);
             } else if (cellState[c-1] <= 1) {
                // If the cell above isn't alive, give this one a random value
-               cellContents[c] = 1 + (random() % (stripParams.numGlyphs - 1));
+               cellContents[c] = 1 + RANDOM_INT(stripParams.numGlyphs - 1);
             } else {
                // Otherwise give this one the value of the cell above
                cellContents[c] = cellContents[c-1];
@@ -488,7 +488,7 @@ float zapchance;
                cellState[c] = 0;
             }
             // A cell is never less alive than the one below it
-            if (c < stripSize) {
+            if (c < stripSize - 1) {
                if (cellState[c+1] > cellState[c]) {
                   cellState[c] = cellState[c+1];
                }

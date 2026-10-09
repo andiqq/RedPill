@@ -17,7 +17,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 // or visit <URL:http://www.fsf.org/>
 
-// This class simply passes drawRect messages up to its parent,
+// This class forwards drawing and resizing to a renderer object,
 // which is the main class defining the screensaver.
 // That way, you can put all the drawing code together, in the
 // screensaver class, where it has ready access to the screensaver
@@ -26,7 +26,15 @@
 #import <AppKit/AppKit.h>
 #import <OpenGL/gl.h>
 
-@interface MatrixOpenGLView : NSOpenGLView {
-}
+@protocol MatrixOpenGLViewRenderer <NSObject>
+// Draw a frame into the view's (current) OpenGL context
+- (void)drawGL;
+// Set up viewport and projection for the given size in pixels
+- (void)resizeGL:(int)width :(int)height;
+@end
+
+@interface MatrixOpenGLView : NSOpenGLView
+
+@property (nonatomic, weak) id<MatrixOpenGLViewRenderer> renderer;
 
 @end
